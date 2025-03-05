@@ -37,8 +37,8 @@ const HomeScreen = () => {
     );
     const [searchText, setSearchText]= useState('');
     const [categoryIndex, setCategoryIndex]= useState({
-      index:0,
-      category: categories[0],
+      index:1,
+      category: categories[1],
     });
     const [sortedCoffee,setSortedCoffee] = useState(getCoffeeList(categoryIndex.category,CoffeeList));
     
@@ -69,6 +69,33 @@ const HomeScreen = () => {
                   style={styles.TextInputContainer}
                   onChangeText={text=> setSearchText(text)}/>
               </View>
+
+                {/**Category Scroller */}
+                <ScrollView 
+                horizontal
+                contentContainerStyle={styles.CategoryScrollViewStyle}
+                showsHorizontalScrollIndicator={false}
+                >
+                  {categories.map((data,index)=>(
+                  <View
+                  key={index.toString()}
+                  style={styles.CategoryScrollViewContainer}
+                  >
+                    <TouchableOpacity onPress={()=>{}} style={styles.CategoryScrollViewItem}>
+                      <Text style={[styles.CategoryText,
+                      categoryIndex.index==index ? {}:{}
+                      ]}
+                      >
+                        {data}</Text>
+                      {categoryIndex.index==index?(
+                        <View style={styles.ActiveCategory}/>
+                          ) : (
+                            <></>
+                          )}
+                    </TouchableOpacity>
+                  </View>
+                ))}
+                </ScrollView>
       </ScrollView>
     </View>
   )
@@ -90,6 +117,7 @@ const styles = StyleSheet.create({
     paddingLeft: SPACING.space_30,
   },
   TextInputContainer:{
+    flex:1,
     height:SPACING.space_20 * 3,
     fontFamily:FONTFAMILY.poppins_medium,
     fontSize:FONTSIZE.size_14,
@@ -104,6 +132,28 @@ const styles = StyleSheet.create({
     borderRadius:BORDERRADIUS.radius_20,
     backgroundColor:COLORS.primaryDarkGreyHex,
     alignItems:'center'
-  }
+  },
+  CategoryScrollViewStyle:{
+    paddingHorizontal:SPACING.space_20,
+    marginBottom:SPACING.space_20,  
+  },
+  ActiveCategory:{
+    height:SPACING.space_10,
+    width:SPACING.space_10,
+    borderRadius: BORDERRADIUS.radius_10,
+    backgroundColor:COLORS.primaryOrangeHex,
+  },
+  CategoryText:{
+    fontFamily:FONTFAMILY.poppins_semibold,
+    fontSize:FONTSIZE.size_16,
+    color:COLORS.primaryLightGreyHex,
+    marginBottom:SPACING.space_4, 
+  },
+  CategoryScrollViewContainer:{
+    paddingHorizontal:SPACING.space_15,
+  },
+  CategoryScrollViewItem:{
+    alignItems:'center'
+  },
 })
 export default HomeScreen
