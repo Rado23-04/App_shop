@@ -78,18 +78,21 @@ const HomeScreen = () => {
                 >
                   {categories.map((data,index)=>(
                   <View
-                  key={index.toString()}
-                  style={styles.CategoryScrollViewContainer}
+                      key={index.toString()}
+                      style={styles.CategoryScrollViewContainer}
                   >
-                    <TouchableOpacity onPress={()=>{}} style={styles.CategoryScrollViewItem}>
-                      <Text style={[styles.CategoryText,
-                      categoryIndex.index==index ? {}:{}
-                      ]}
-                      >
+                    <TouchableOpacity 
+                      onPress={()=>{}} 
+                      style={styles.CategoryScrollViewItem}>
+                          <Text style={[styles.CategoryText,
+                          categoryIndex.index==index ? {}:{}
+                          ]}
+                            >
                         {data}</Text>
-                      {categoryIndex.index==index?(
-                        <View style={styles.ActiveCategory}/>
-                          ) : (
+                      {categoryIndex.index==index?
+                        (
+                          <View style={styles.ActiveCategory}/>
+                        ) : (
                             <></>
                           )}
                     </TouchableOpacity>
