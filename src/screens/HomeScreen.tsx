@@ -1,10 +1,12 @@
-import { ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { FlatList, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { useStore } from '../store/store'
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { BORDERRADIUS, COLORS, FONTFAMILY, FONTSIZE, SPACING } from '../theme/theme'
 import HeaderBar from '../components/HeaderBar'
 import CustomIcon from '../components/CustomIcon'
+import CoffeeCard from '../components/CoffeeCard'
+
 
 const getCategoriesFromData =(data:any)=>{
   let temp:any = {};
@@ -82,10 +84,13 @@ const HomeScreen = () => {
                       style={styles.CategoryScrollViewContainer}
                   >
                     <TouchableOpacity 
-                      onPress={()=>{}} 
+                      onPress={()=>{
+                        setCategoryIndex({index:index,category:categories[index]});
+                        setSortedCoffee([...getCoffeeList(categories[index],CoffeeList)])
+                      }} 
                       style={styles.CategoryScrollViewItem}>
                           <Text style={[styles.CategoryText,
-                          categoryIndex.index==index ? {}:{}
+                          categoryIndex.index==index ? {color:COLORS.primaryOrangeHex}:{}
                           ]}
                             >
                         {data}</Text>
@@ -99,6 +104,33 @@ const HomeScreen = () => {
                   </View>
                 ))}
                 </ScrollView>
+
+                {/** Coffee Flatlist*/}
+                <FlatList 
+                keyExtractor={item=>item.id}
+                renderItem={({item})=>{
+                  return <TouchableOpacity>
+                              <CoffeeCard
+                              id={item.id} 
+                              index={item.index} 
+                              type={item.type} 
+                              rosted={item.rosted}
+                              imagelink_square={item.imagelink_square} 
+                              name={item.name} 
+                              special_ingredient={item.special_ingredient}
+                              average_rating={item.average_rating}
+                              price={item.price} 
+                              buttonPressHandler={()=>{
+                                
+                              }}/>
+                         </TouchableOpacity>
+                }}  
+                contentContainerStyle= {styles.FlatListContainer}
+                data={sortedCoffee}
+                showsHorizontalScrollIndicator = {false}
+                horizontal/>
+
+                {/** Beans Flatlist*/}
       </ScrollView>
     </View>
   )
@@ -158,5 +190,10 @@ const styles = StyleSheet.create({
   CategoryScrollViewItem:{
     alignItems:'center'
   },
+  FlatListContainer:{
+    gap:SPACING.space_20,
+    paddingVertical:SPACING.space_20,
+    paddingHorizontal:SPACING.space_30,
+  }
 })
 export default HomeScreen
